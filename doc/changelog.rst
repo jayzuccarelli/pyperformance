@@ -1,6 +1,10 @@
 Changelog
 =========
 
+Version 1.15.0
+--------------
+* Add opt-in ``io`` benchmark group with the ``io_whole_file`` benchmark
+
 Version 1.14.0
 --------------
 * Bump ``pyperf`` to 2.10.0
