@@ -318,11 +318,11 @@ Python's I/O stack and system call overhead rather than the storage device.
 Results still depend on the operating system and file system of the temporary
 directory.
 
-* ``io_whole_file``: read or write a whole file in a single call with
-  ``open().read()`` / ``open().write()`` in binary mode plus
-  ``pathlib.Path.read_bytes()`` / ``write_bytes()``, at 4 KiB and 1 MiB
-  (``io_whole_file_read_bytes_4k``, ``io_whole_file_write_bytes_4k``, ...),
-  and ``Path.read_text()`` / ``write_text()`` at 1 MiB.
+* ``io_whole_file``: read or write a whole file in a single call, one API
+  per result: ``open().read()`` / ``open().write()`` in binary mode at 4 KiB
+  and 1 MiB (``io_whole_file_read_bytes_4k``,
+  ``io_whole_file_write_bytes_4k``, ...), and ``pathlib.Path.read_text()`` /
+  ``write_text()`` at 1 MiB.
 
 
 json_dumps, json_loads

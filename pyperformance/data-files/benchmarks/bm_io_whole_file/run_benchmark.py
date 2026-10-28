@@ -1,12 +1,13 @@
 """
 Benchmark reading and writing a whole file in a single call.
 
-Covers the binary pattern ``open(path, "rb").read()`` /
-``open(path, "wb").write(data)`` together with the ``pathlib.Path``
-helpers that wrap it (``read_bytes``, ``write_bytes``), at 4 KiB, where
-per-call overhead and the number of system calls dominate, and at 1 MiB,
-where buffer allocation and copying dominate. ``Path.read_text`` /
-``Path.write_text`` are measured at 1 MiB.
+Each result measures a single API. The binary pattern
+``open(path, "rb").read()`` / ``open(path, "wb").write(data)`` is measured at
+4 KiB, where per-call overhead and the number of system calls dominate, and
+at 1 MiB, where buffer allocation and copying dominate.
+``Path.read_text`` / ``Path.write_text`` are measured at 1 MiB.
+``Path.read_bytes`` / ``Path.write_bytes`` are thin wrappers over the same
+``open()`` calls, so they are not measured separately.
 
 The file lives in a fresh temporary directory and stays in the OS page cache,
 so this measures Python's I/O stack and system call overhead, not the storage
@@ -57,21 +58,17 @@ def bench_read_bytes(loops, path):
     for _ in range_it:
         with open(path, "rb") as f:
             f.read()
-        path.read_bytes()
     return pyperf.perf_counter() - t0
 
 
 def bench_write_bytes(loops, path, data):
-    other = path.with_suffix(".2")
     elapsed = 0
     for _ in range(loops):
         t0 = pyperf.perf_counter()
         with open(path, "wb") as f:
             f.write(data)
-        other.write_bytes(data)
         elapsed += pyperf.perf_counter() - t0
         os.unlink(path)
-        os.unlink(other)
     return elapsed
 
 
