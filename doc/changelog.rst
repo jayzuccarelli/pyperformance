@@ -4,6 +4,7 @@ Changelog
 Version 1.15.0
 --------------
 * Add opt-in ``io`` benchmark group with the ``io_whole_file`` benchmark
+  (cached reads and writes, plus uncached reads)
 
 Version 1.14.0
 --------------
